@@ -5,6 +5,9 @@ import com.sun.javafx.geom.Vec2f;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
+
+import static java.lang.StrictMath.atan;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -46,7 +49,10 @@ public class Line implements Primitive {
 
     public boolean contains(Point2D point)
     {
-        throw new NotImplementedException();
+        if(segment)
+            if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
+                return false;
+        return (point.x-start.x)/(point.y-start.y)==(end.x-start.x)/(end.y-start.y);//Возможно слишком точно
     }
 
     public void change(Object placeholder)
@@ -69,7 +75,8 @@ public class Line implements Primitive {
 
     public void reflect(Point2D point)
     {
-        throw new NotImplementedException();
+        start.setLocation(2*point.x-start.x,2*point.y-start.y);
+        end.setLocation(2*point.x-end.x,2*point.y-end.y);
     }
 
 }

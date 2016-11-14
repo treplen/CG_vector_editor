@@ -53,7 +53,8 @@ public class Epicycloid implements Primitive {
 
     public void reflect(Point2D point)
     {
-        throw new NotImplementedException();
+        center.setLocation(2*point.x-center.x,2*point.y-center.y);
+        angle=(angle+180)%360;
     }
 
 }

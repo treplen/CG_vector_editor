@@ -18,17 +18,36 @@ public class Rectangle implements Primitive {
     {
         this.start=start;
         this.end=end;
+        fixPosition();
         this.color=color;
     }
 
     void setStart(Point2D start)
     {
         this.start=start;
+        fixPosition();
+    }
+
+    private void fixPosition()
+    {
+        if(start.x>end.x)
+        {
+            float buf = start.x;
+            start.x=end.x;
+            end.x=buf;
+        }
+        if(start.y>end.y)
+        {
+            float buf = start.y;
+            start.y=end.y;
+            end.y=buf;
+        }
     }
 
     void setEnd(Point2D end)
     {
         this.end=end;
+        fixPosition();
     }
 
     public void draw(Object placeholder)
@@ -44,7 +63,7 @@ public class Rectangle implements Primitive {
 
     public boolean contains(Point2D point)
     {
-        throw new NotImplementedException();
+        return point.x>=start.x&&point.x<=end.x&&point.y>=start.y&&point.y<=end.y;
     }
 
     public void change(Object placeholder)
@@ -55,19 +74,15 @@ public class Rectangle implements Primitive {
     public void enlarge(Float scale)
     {
         float multiplier = scale-1;
-        if(end.x>start.x)
-            end.x=end.x+(end.x-start.x)*multiplier;
-        else
-            start.x=start.x+(start.x-end.x)*multiplier;
-        if(end.y>start.y)
-            end.y=end.y+(end.y-start.y)*multiplier;
-        else
-            start.y=start.y+(start.y-end.y)*multiplier;
+        end.x=end.x+(end.x-start.x)*multiplier;
+        end.y=end.y+(end.y-start.y)*multiplier;
     }
 
     public void reflect(Point2D point)
     {
-        throw new NotImplementedException();
+        start.setLocation(2*point.x-start.x,2*point.y-start.y);
+        end.setLocation(2*point.x-end.x,2*point.y-end.y);
+        fixPosition();
     }
 
 }
