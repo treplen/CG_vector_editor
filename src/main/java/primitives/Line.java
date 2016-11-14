@@ -56,7 +56,15 @@ public class Line implements Primitive {
 
     public void enlarge(Float scale)
     {
-        throw new NotImplementedException();
+        float multiplier = scale-1;
+        if(end.x>start.x)
+            end.x=end.x+(end.x-start.x)*multiplier;
+        else
+            start.x=start.x+(start.x-end.x)*multiplier;
+        if(end.y>start.y)
+            end.y=end.y+(end.y-start.y)*multiplier;
+        else
+            start.y=start.y+(start.y-end.y)*multiplier;
     }
 
     public void reflect(Point2D point)

@@ -48,7 +48,7 @@ public class Circle implements Primitive {
 
     public boolean contains(Point2D point)
     {
-        throw new NotImplementedException();
+        return center.distance(point)<=radius;
     }
 
     public void change(Object placeholder)
@@ -58,7 +58,9 @@ public class Circle implements Primitive {
 
     public void enlarge(Float scale)
     {
-        throw new NotImplementedException();
+        float add = (scale-1)*radius;
+        center.setLocation(center.x+add,center.y+add);
+        radius=radius*scale;
     }
 
     public void reflect(Point2D point)

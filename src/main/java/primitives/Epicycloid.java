@@ -45,7 +45,10 @@ public class Epicycloid implements Primitive {
 
     public void enlarge(Float scale)
     {
-        throw new NotImplementedException();
+        float add = (scale-1)*(inradius+outradius);
+        center.setLocation(center.x+add,center.y+add);
+        inradius=inradius*scale;
+        outradius=outradius*scale;
     }
 
     public void reflect(Point2D point)
