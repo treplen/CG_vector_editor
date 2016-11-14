@@ -1,5 +1,6 @@
 package primitives;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
 
@@ -12,13 +13,15 @@ import java.util.List;
  */
 public class Group implements Primitive {
 
-    List<Primitive> contains;
+    private List<Primitive> contains;
+    private String name;
 
-    public Group() {
+    public Group(@NotNull String name) {
+        this.name = name;
         contains = new ArrayList<Primitive>();
     }
 
-    public void add(Primitive primitive)
+    public void add(@NotNull Primitive primitive)
     {
         contains.add(primitive);
     }
