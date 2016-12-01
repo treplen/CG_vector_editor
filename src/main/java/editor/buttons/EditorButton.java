@@ -26,4 +26,12 @@ public class EditorButton extends JButton {
         setForeground(Color.WHITE);
     }
 
+    public EditorButton(Image image, ActionListener actionListener)
+    {
+        setIcon(new ImageIcon(image));
+        addActionListener(actionListener);
+        setBackground(Color.WHITE);
+        setForeground(Color.WHITE);
+    }
+
 }

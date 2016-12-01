@@ -33,6 +33,8 @@ public class EditorCanvas extends JPanel {
 
        for(Primitive primitive: Editor.primitives)
            primitive.draw(g);
+        if(Editor.tempPrimitive!=null)
+            Editor.tempPrimitive.draw(g);
 
         g.dispose();
 

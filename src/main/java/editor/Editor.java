@@ -6,6 +6,7 @@ import editor.primitives.Primitive;
 import editor.primitives.Rectangle;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,6 +22,8 @@ public class Editor {
     public final static List<Primitive> primitives=new LinkedList<>();
     public static Primitive tempPrimitive;
 
+    public static Color color;
+
     {
         options.put(SelectOption.class,new SelectOption());
         options.put(CircleOption.class,new CircleOption());
@@ -29,5 +32,6 @@ public class Editor {
         options.put(RectangleOption.class,new RectangleOption());
         currentOption=options.get(SelectOption.class);
         tempPrimitive=null;
+        color=Color.green;
     }
 }

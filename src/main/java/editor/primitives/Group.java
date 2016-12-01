@@ -75,4 +75,14 @@ public class Group implements Primitive {
     public void sendMsg(float x, float y) {
 
     }
+
+    @Override
+    public boolean step(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public void select(boolean select) {
+
+    }
 }

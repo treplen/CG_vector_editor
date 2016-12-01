@@ -23,4 +23,8 @@ public interface Primitive {
     void reflect(Point2D point);
 
     void sendMsg(float x, float y);
+
+    boolean step(float x, float y);
+
+    void select(boolean select);
 }

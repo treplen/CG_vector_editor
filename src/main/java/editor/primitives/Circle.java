@@ -11,14 +11,28 @@ import java.awt.*;
 public class Circle implements Primitive {
 
     private Color color;
+    private Color selectColor;
     private float radius;
     private Point2D center;
+    private boolean fix;
+    private boolean selected=false;
 
     public Circle(Point2D center, float radius, Color color)
     {
         this.center=center;
         this.radius=radius;
         this.color=color;
+        selectColor=new Color(color.getRed(),color.getGreen(),color.getBlue(),127);
+        fix=true;
+    }
+
+    public Circle(Point2D center, Color color)
+    {
+        this.center=center;
+        this.radius=0;
+        this.color=color;
+        selectColor=new Color(color.getRed(),color.getGreen(),color.getBlue(),127);
+        fix=false;
     }
 
     public void setRadius(float radius)
@@ -38,7 +52,11 @@ public class Circle implements Primitive {
 
     public void draw(Graphics2D g)
     {
-        throw new NotImplementedException();
+        if(selected)
+            g.setColor(selectColor);
+        else
+            g.setColor(color);
+        g.fillOval(Math.round(center.x-radius),Math.round(center.y-radius),Math.round(radius)*2,Math.round(radius)*2);
     }
 
     public void move(Vec2f vector)
@@ -70,7 +88,21 @@ public class Circle implements Primitive {
 
     @Override
     public void sendMsg(float x, float y) {
+        if(!fix)
+            radius=center.distance(x,y);
+    }
 
+    @Override
+    public boolean step(float x, float y) {
+        if(!fix)
+            radius=center.distance(x,y);
+        fix=true;
+        return fix;
+    }
+
+    @Override
+    public void select(boolean select) {
+        selected=select;
     }
 
 }

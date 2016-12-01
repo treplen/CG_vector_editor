@@ -5,7 +5,7 @@ package editor.options;
  */
 public class EpicycloidOption implements EditorOption {
     @Override
-    public void exec() {
+    public void exec(float x, float y) {
         System.out.println(this.getClass());
     }
 }

@@ -14,6 +14,8 @@ public class Line implements Primitive {
     private Color color;
     private Point2D start, end;
     private boolean segment;
+    boolean fixed;
+    boolean selected=false;
 
     public Line(Point2D start, Point2D end, Color color, boolean segment)
     {
@@ -21,6 +23,16 @@ public class Line implements Primitive {
         this.end=end;
         this.color=color;
         this.segment=segment;
+        fixed=true;
+    }
+
+    public Line(Point2D start, Color color)
+    {
+        this.start=start;
+        this.end=start;
+        this.color=color;
+        this.segment=true;
+        fixed=false;
     }
 
     void setStart(Point2D start)
@@ -35,7 +47,14 @@ public class Line implements Primitive {
 
     public void draw(Graphics2D g)
     {
-        throw new NotImplementedException();
+        g.setColor(color);
+        g.drawLine(Math.round(start.x),Math.round(start.y),Math.round(end.x),Math.round(end.y));
+        if(selected)
+        {
+            g.setColor(Color.black);
+            g.drawRect(Math.round(start.x)-10,Math.round(start.y)-10,20,20);
+            g.drawRect(Math.round(end.x)-10,Math.round(end.y)-10,20,20);
+        }
     }
 
     public void move(Vec2f vector)
@@ -49,7 +68,7 @@ public class Line implements Primitive {
         if(segment)
             if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
                 return false;
-        return (point.x-start.x)/(point.y-start.y)==(end.x-start.x)/(end.y-start.y);//Возможно слишком точно
+        return Math.round(point.x-start.x)/Math.round(point.y-start.y)==Math.round(end.x-start.x)/Math.round(end.y-start.y);//Возможно слишком точно
     }
 
     public void change(Object placeholder)
@@ -78,7 +97,21 @@ public class Line implements Primitive {
 
     @Override
     public void sendMsg(float x, float y) {
+        if(!fixed)
+            end=new Point2D(x,y);
+    }
 
+    @Override
+    public boolean step(float x, float y) {
+        if(!fixed)
+            end=new Point2D(x,y);
+        fixed=true;
+        return fixed;
+    }
+
+    @Override
+    public void select(boolean select) {
+        selected=select;
     }
 
 }

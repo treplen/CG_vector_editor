@@ -1,6 +1,7 @@
 package editor.controller;
 
 import editor.Editor;
+import editor.Main;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,11 +11,12 @@ import java.awt.event.MouseListener;
  */
 public class MouseListenerImpl implements MouseListener {
     public void mouseClicked(MouseEvent e) {
-        Editor.currentOption.exec();
+
     }
 
     public void mousePressed(MouseEvent e) {
-
+        Editor.currentOption.exec(e.getX(),e.getY()-39);
+        Main.update();
     }
 
     public void mouseReleased(MouseEvent e) {

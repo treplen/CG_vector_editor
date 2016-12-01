@@ -62,4 +62,14 @@ public class Epicycloid implements Primitive {
 
     }
 
+    @Override
+    public boolean step(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public void select(boolean select) {
+
+    }
+
 }
