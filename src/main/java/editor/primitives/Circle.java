@@ -1,4 +1,4 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.javafx.geom.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -36,7 +36,7 @@ public class Circle implements Primitive {
         this.center=center;
     }
 
-    public void draw(Object placeholder)
+    public void draw(Graphics2D g)
     {
         throw new NotImplementedException();
     }
@@ -66,6 +66,11 @@ public class Circle implements Primitive {
     public void reflect(Point2D point)
     {
         center.setLocation(2*point.x-center.x,2*point.y-center.y);
+    }
+
+    @Override
+    public void sendMsg(float x, float y) {
+
     }
 
 }

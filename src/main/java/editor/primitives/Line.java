@@ -1,13 +1,10 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
-
-import static java.lang.StrictMath.atan;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -36,7 +33,7 @@ public class Line implements Primitive {
         this.end=end;
     }
 
-    public void draw(Object placeholder)
+    public void draw(Graphics2D g)
     {
         throw new NotImplementedException();
     }
@@ -77,6 +74,11 @@ public class Line implements Primitive {
     {
         start.setLocation(2*point.x-start.x,2*point.y-start.y);
         end.setLocation(2*point.x-end.x,2*point.y-end.y);
+    }
+
+    @Override
+    public void sendMsg(float x, float y) {
+
     }
 
 }

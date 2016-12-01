@@ -1,9 +1,10 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,10 +34,10 @@ public class Group implements Primitive {
         return res;
     }
 
-    public void draw(final Object placeholder)
+    public void draw(Graphics2D g)
     {
         for(Iterator<Primitive> i = contains.listIterator();i.hasNext();)
-            i.next().draw(placeholder);
+            i.next().draw(g);
     }
 
     public void move(final Vec2f vector)
@@ -68,5 +69,10 @@ public class Group implements Primitive {
     {
         for(Iterator<Primitive> i = contains.listIterator();i.hasNext();)
             i.next().reflect(point);
+    }
+
+    @Override
+    public void sendMsg(float x, float y) {
+
     }
 }

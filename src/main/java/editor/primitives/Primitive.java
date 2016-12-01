@@ -1,16 +1,16 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.javafx.geom.*;
 import com.sun.javafx.geom.Point2D;
 
-import java.awt.geom.*;
+import java.awt.*;
 
 /**
  * Created by svuatoslav on 11/14/16.
  */
 public interface Primitive {
 
-    void draw(Object placeholder);
+    void draw(Graphics2D g);
 
     void move(Vec2f vector);
 
@@ -22,4 +22,5 @@ public interface Primitive {
 
     void reflect(Point2D point);
 
+    void sendMsg(float x, float y);
 }

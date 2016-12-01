@@ -1,4 +1,4 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.javafx.geom.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -23,7 +23,7 @@ public class Epicycloid implements Primitive {
         this.color=color;
     }
 
-    public void draw(Object placeholder)
+    public void draw(Graphics2D g)
     {
         throw new NotImplementedException();
     }
@@ -55,6 +55,11 @@ public class Epicycloid implements Primitive {
     {
         center.setLocation(2*point.x-center.x,2*point.y-center.y);
         angle=(angle+180)%360;
+    }
+
+    @Override
+    public void sendMsg(float x, float y) {
+
     }
 
 }

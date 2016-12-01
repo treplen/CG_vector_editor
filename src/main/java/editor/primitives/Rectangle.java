@@ -1,4 +1,4 @@
-package primitives;
+package editor.primitives;
 
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
@@ -50,7 +50,7 @@ public class Rectangle implements Primitive {
         fixPosition();
     }
 
-    public void draw(Object placeholder)
+    public void draw(Graphics2D g)
     {
         throw new NotImplementedException();
     }
@@ -83,6 +83,11 @@ public class Rectangle implements Primitive {
         start.setLocation(2*point.x-start.x,2*point.y-start.y);
         end.setLocation(2*point.x-end.x,2*point.y-end.y);
         fixPosition();
+    }
+
+    @Override
+    public void sendMsg(float x, float y) {
+
     }
 
 }
