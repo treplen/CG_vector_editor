@@ -18,7 +18,7 @@ import java.util.List;
  * Created by svuatoslav on 12/1/16.
  */
 public class Editor {
-    public static HashMap<Class<? extends EditorOption>,EditorOption> options = new HashMap<>();
+    public final static HashMap<Class<? extends EditorOption>,EditorOption> options = new HashMap<>();
     public static EditorOption currentOption;
 
     public final static List<Primitive> primitives=new LinkedList<>();

@@ -26,6 +26,7 @@ public class ListFrame extends JFrame {
     private JButton up;
     private JButton down;
     private JButton rename;
+    private JScrollBar scrollBar;
 
     public ListFrame()
     {
@@ -162,7 +163,7 @@ public class ListFrame extends JFrame {
         actions.add(rename);
         actions.add(down);
         add(actions, BorderLayout.SOUTH);
-        add(Editor.selectPanel);
+        add(new JScrollPane(Editor.selectPanel));
         setMinimumSize(new Dimension(100,500));
         setMaximumSize(new Dimension(100,500));
         setResizable(false);

@@ -21,6 +21,7 @@ public class Main {
     public static ListFrame listFrame;
 
     public static void main(String[] args) throws ClassNotFoundException {
+        new Editor();
         frame=new EditorFrame();
         optionsFrame=new OptionsFrame();
         colorFrame=new ColorFrame();
