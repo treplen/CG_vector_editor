@@ -4,6 +4,8 @@ import com.sun.javafx.geom.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -96,6 +98,7 @@ public class Circle implements Primitive {
     public boolean step(float x, float y) {
         if(!fix)
             radius=center.distance(x,y);
+        if(radius>5)
         fix=true;
         return fix;
     }
@@ -103,6 +106,22 @@ public class Circle implements Primitive {
     @Override
     public void select(boolean select) {
         selected=select;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
+    public List<Primitive> collapse() {
+        return null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Circle";
     }
 
 }

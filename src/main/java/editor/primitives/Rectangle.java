@@ -5,6 +5,8 @@ import com.sun.javafx.geom.Vec2f;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -106,6 +108,7 @@ public class Rectangle implements Primitive {
     public boolean step(float x, float y) {
         if(!fix)
             end=new Point2D(x,y);
+        if(start.distance(end)>5)
         fix=true;
         return fix;
     }
@@ -115,4 +118,19 @@ public class Rectangle implements Primitive {
         selected=select;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Rectangle";
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
+    public List<Primitive> collapse() {
+        return null;
+    }
 }

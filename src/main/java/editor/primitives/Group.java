@@ -27,7 +27,8 @@ public class Group implements Primitive {
         contains.add(primitive);
     }
 
-    public List<Primitive> Collapse()
+    @Override
+    public List<Primitive> collapse()
     {
         List<Primitive> res = new ArrayList<Primitive>(contains);
         contains.clear();
@@ -48,8 +49,8 @@ public class Group implements Primitive {
 
     public boolean contains(Point2D point)
     {
-        for(Iterator<Primitive> i = contains.listIterator();i.hasNext();)
-            if(i.next().contains(point))
+        for(Primitive primitive:contains)
+            if(primitive.contains(point))
                 return true;
         return false;
     }
@@ -83,6 +84,42 @@ public class Group implements Primitive {
 
     @Override
     public void select(boolean select) {
+        for (Primitive primitive:contains)
+        {primitive.select(select);}
+    }
 
+    @Override
+    public String toString()
+    {
+        return "Group: " + name;
+    }
+
+    @Override
+    public boolean isSelected() {
+        for(Primitive primitive:contains)
+        {
+            if(!primitive.isSelected())
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public void setName(String str)
+    {
+        if(str!=null)
+            name=str;
+    }
+
+    @Override
+    public boolean isGroup()
+    {
+        return true;
     }
 }

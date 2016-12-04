@@ -4,6 +4,8 @@ import com.sun.javafx.geom.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -72,4 +74,19 @@ public class Epicycloid implements Primitive {
 
     }
 
+    @Override
+    public String toString()
+    {
+        return "Epicycloid";
+    }
+
+    @Override
+    public boolean isSelected() {
+        return false;
+    }
+
+    @Override
+    public List<Primitive> collapse() {
+        return null;
+    }
 }

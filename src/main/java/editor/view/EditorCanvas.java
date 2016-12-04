@@ -16,6 +16,7 @@ public class EditorCanvas extends JPanel {
     public EditorCanvas() {
         screen = new BufferedImage(EditorFrame.size.width, EditorFrame.size.height, BufferedImage.TYPE_INT_ARGB);
         setSize(EditorFrame.size);
+        setBackground(Color.WHITE);
         setVisible(true);
     }
 

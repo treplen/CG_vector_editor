@@ -5,6 +5,8 @@ import com.sun.javafx.geom.Vec2f;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -105,6 +107,7 @@ public class Line implements Primitive {
     public boolean step(float x, float y) {
         if(!fixed)
             end=new Point2D(x,y);
+        if(start.distance(end)>5)
         fixed=true;
         return fixed;
     }
@@ -112,6 +115,21 @@ public class Line implements Primitive {
     @Override
     public void select(boolean select) {
         selected=select;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Line";
+    }
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
+    public List<Primitive> collapse() {
+        return null;
     }
 
 }

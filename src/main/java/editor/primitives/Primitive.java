@@ -4,6 +4,8 @@ import com.sun.javafx.geom.*;
 import com.sun.javafx.geom.Point2D;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -27,4 +29,21 @@ public interface Primitive {
     boolean step(float x, float y);
 
     void select(boolean select);
+
+    boolean isSelected();
+
+    List<Primitive> collapse();
+
+    default String getName()
+    {
+        return null;
+    }
+
+    default void setName(String str)
+    {}
+
+    default boolean isGroup()
+    {
+        return false;
+    }
 }

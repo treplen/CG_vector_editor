@@ -15,7 +15,7 @@ public class MouseListenerImpl implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        Editor.currentOption.exec(e.getX(),e.getY()-39);
+        Editor.currentOption.exec(e.getX(),e.getY()-60);
         Main.update();
     }
 

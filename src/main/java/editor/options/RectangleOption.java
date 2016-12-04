@@ -11,7 +11,7 @@ public class RectangleOption implements EditorOption {
     @Override
     public void exec(float x, float y) {
         if(Editor.tempPrimitive==null)
-            Editor.tempPrimitive=new Rectangle(new Point2D(x,y),Editor.color);
+            Editor.tempPrimitive=new Rectangle(new Point2D(x,y),Editor.chooser.getColor());
         else {
             boolean done;
             done = Editor.tempPrimitive.step(x, y);

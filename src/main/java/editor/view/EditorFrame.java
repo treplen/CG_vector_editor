@@ -12,6 +12,7 @@ import java.awt.*;
  */
 public class EditorFrame extends JFrame {
     public EditorCanvas canvas;
+    public EditorToolBar toolBar;
     public static double mouseX, mouseY;
     public static Dimension size = new Dimension(1100, 700);
 
@@ -25,6 +26,8 @@ public class EditorFrame extends JFrame {
         addMouseMotionListener(new MouseMotionListenerImpl());
         canvas = new EditorCanvas();
         getContentPane().add(canvas);
+        toolBar=new EditorToolBar();
+        setJMenuBar(toolBar);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

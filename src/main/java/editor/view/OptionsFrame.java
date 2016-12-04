@@ -19,7 +19,7 @@ public class OptionsFrame extends JFrame {
         add(options);
         setResizable(false);
         setLocation(100,100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setTitle("Tools");
         pack();
         setVisible(true);
