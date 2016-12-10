@@ -9,9 +9,7 @@ import editor.view.ListPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -21,7 +19,8 @@ public class Editor {
     public final static HashMap<Class<? extends EditorOption>,EditorOption> options = new HashMap<>();
     public static EditorOption currentOption;
 
-    public final static List<Primitive> primitives=new LinkedList<>();
+    public final static List<Primitive> primitives=new ArrayList<>();
+    public final static HashSet<Primitive> selected = new HashSet<>();
     public static Primitive tempPrimitive;
     public static JColorChooser chooser;
     public static ListPanel selectPanel;

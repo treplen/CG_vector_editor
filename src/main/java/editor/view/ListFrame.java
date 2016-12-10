@@ -40,6 +40,7 @@ public class ListFrame extends JFrame {
                 for(Primitive primitive:Editor.selectPanel.getSelectedValuesList())
                 {
                     primitive.select(true);
+                    Editor.selected.add(primitive);
                 }
                 Main.update();
             }
@@ -51,8 +52,7 @@ public class ListFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 for(Primitive primitive:Editor.selectPanel.getSelectedValuesList())
                 {
-                    if(primitive.isGroup())
-                        primitive.setName(JOptionPane.showInputDialog(null,"Name", "Group"));
+                    primitive.setName(JOptionPane.showInputDialog(null,"Name", "Group"));
                 }
                 Main.update();
             }
@@ -60,7 +60,7 @@ public class ListFrame extends JFrame {
 
         up=new JButton();
         try {
-            up.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/circle.bmp"))));
+            up.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/up.bmp"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class ListFrame extends JFrame {
 
         down=new JButton();
         try {
-            down.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/circle.bmp"))));
+            down.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/down.bmp"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,6 +111,7 @@ public class ListFrame extends JFrame {
                 for(Primitive primitive:Editor.selectPanel.getSelectedValuesList())
                 {
                     Editor.primitives.remove(primitive);
+                    Editor.selected.remove(primitive);
                     List<Primitive> insert = primitive.collapse();
                     if(insert!=null)
                         for(Primitive primitive1:insert)
@@ -127,7 +128,7 @@ public class ListFrame extends JFrame {
                 String name=null;
                 for (Primitive primitive: Editor.selectPanel.getSelectedValuesList())
                 {
-                    if(primitive.getName()!=null)
+                    if(primitive.isGroup())
                         if(name==null)
                             name=primitive.getName();
                         else
@@ -142,7 +143,9 @@ public class ListFrame extends JFrame {
                     Group group = new Group(name);
                     for (Primitive primitive : Editor.selectPanel.getSelectedValuesList()) {
                         Editor.primitives.remove(primitive);
+                        Editor.selected.remove(primitive);
                         primitive.select(false);
+                        Editor.selected.remove(primitive);
                         List<Primitive> contained = primitive.collapse();
                         if(contained==null)
                             group.add(primitive);
@@ -171,7 +174,7 @@ public class ListFrame extends JFrame {
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setTitle("Object list");
         pack();
-        setVisible(true);
+        setVisible(false);
     }
 
     public void update()

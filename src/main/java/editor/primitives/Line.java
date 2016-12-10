@@ -2,6 +2,7 @@ package editor.primitives;
 
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
+import editor.view.dialogues.ChangeLine;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
@@ -11,28 +12,26 @@ import java.util.List;
 /**
  * Created by svuatoslav on 11/14/16.
  */
-public class Line implements Primitive {
+public class Line extends Primitive {
 
-    private Color color;
     private Point2D start, end;
     private boolean segment;
     boolean fixed;
-    boolean selected=false;
 
     public Line(Point2D start, Point2D end, Color color, boolean segment)
     {
+        super("Line",color);
         this.start=start;
         this.end=end;
-        this.color=color;
         this.segment=segment;
         fixed=true;
     }
 
     public Line(Point2D start, Color color)
     {
+        super("Line",color);
         this.start=start;
         this.end=start;
-        this.color=color;
         this.segment=true;
         fixed=false;
     }
@@ -49,9 +48,9 @@ public class Line implements Primitive {
 
     public void draw(Graphics2D g)
     {
-        g.setColor(color);
+        g.setColor(getColor());
         g.drawLine(Math.round(start.x),Math.round(start.y),Math.round(end.x),Math.round(end.y));
-        if(selected)
+        if(isSelected())
         {
             g.setColor(Color.black);
             g.drawRect(Math.round(start.x)-10,Math.round(start.y)-10,20,20);
@@ -73,9 +72,9 @@ public class Line implements Primitive {
         return Math.round(point.x-start.x)/Math.round(point.y-start.y)==Math.round(end.x-start.x)/Math.round(end.y-start.y);//Возможно слишком точно
     }
 
-    public void change(Object placeholder)
+    public void change()
     {
-        throw new NotImplementedException();
+        ChangeLine.exec(this);
     }
 
     public void enlarge(Float scale)
@@ -85,10 +84,20 @@ public class Line implements Primitive {
             end.x=end.x+(end.x-start.x)*multiplier;
         else
             start.x=start.x+(start.x-end.x)*multiplier;
-        if(end.y>start.y)
+        if(end.y<start.y)
             end.y=end.y+(end.y-start.y)*multiplier;
         else
             start.y=start.y+(start.y-end.y)*multiplier;
+    }
+
+    @Override
+    public void enlarge(Float scale, float leftBottomX, float leftBottomY) {
+
+        float multiplier = scale-1;
+        end.x=end.x+(end.x-leftBottomX)*multiplier;
+        start.x=start.x+(start.x-leftBottomX)*multiplier;
+        end.y=end.y+(end.y-leftBottomY)*multiplier;
+        start.y=start.y+(start.y-leftBottomY)*multiplier;
     }
 
     public void reflect(Point2D point)
@@ -113,23 +122,18 @@ public class Line implements Primitive {
     }
 
     @Override
-    public void select(boolean select) {
-        selected=select;
+    public Point2D getLeftBottom() {
+        return new Point2D(Float.min(start.x,end.x),Float.max(start.y,end.y));
     }
 
-    @Override
-    public String toString()
+    public Point2D getStart()
     {
-        return "Line";
-    }
-    @Override
-    public boolean isSelected() {
-        return selected;
+        return start;
     }
 
-    @Override
-    public List<Primitive> collapse() {
-        return null;
+    public Point2D getEnd()
+    {
+        return end;
     }
 
 }

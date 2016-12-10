@@ -1,11 +1,15 @@
 package editor.view;
 
+import com.sun.javafx.geom.Vec2f;
+import editor.Editor;
 import editor.Main;
+import editor.primitives.Primitive;
+import editor.view.dialogues.MoveDialog;
+import editor.view.dialogues.ScaleDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 
 /**
@@ -14,6 +18,7 @@ import java.awt.event.KeyEvent;
 public class EditorToolBar extends JMenuBar {
     private JMenu viewMenu;
     private JMenu fileMenu;
+    private JMenu commandMenu;
     public EditorToolBar()
     {
         fileMenu=new JMenu("File");
@@ -57,5 +62,68 @@ public class EditorToolBar extends JMenuBar {
             }
         });
         viewMenu.add(menuItem);
+
+        commandMenu=new JMenu("Commands");
+        add(commandMenu);
+
+        menuItem=new JMenuItem("Move");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MoveDialog.show();
+                if(MoveDialog.success())
+                    for (Primitive primitive:Editor.selected)
+                        primitive.move(new Vec2f(MoveDialog.getDX(),MoveDialog.getDY()));
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
+        menuItem=new JMenuItem("Change");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Editor.selected.size()>1)
+                    JOptionPane.showMessageDialog(null,"Can't change multiple objects at once","Select command error",JOptionPane.WARNING_MESSAGE);
+                if(Editor.selected.size()==0)
+                    JOptionPane.showMessageDialog(null,"Select an object first","Select command error",JOptionPane.WARNING_MESSAGE);
+                if(Editor.selected.size()==1){
+                    for(Primitive primitive:Editor.selected)
+                    {
+                        if(primitive.isGroup())
+                            JOptionPane.showMessageDialog(null,"Can't change groups","Select command error",JOptionPane.WARNING_MESSAGE);
+                        else
+                            primitive.change();
+                    }
+                }
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
+        menuItem=new JMenuItem("Scale");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ScaleDialog.show();
+                if(ScaleDialog.success())
+                    for (Primitive primitive:Editor.selected)
+                        primitive.enlarge(ScaleDialog.getScale());
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
+        menuItem=new JMenuItem("Recolor");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Primitive primitive:Editor.selected)
+                    primitive.setColor(Editor.chooser.getColor());
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
     }
 }

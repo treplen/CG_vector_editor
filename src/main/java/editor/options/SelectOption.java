@@ -25,10 +25,13 @@ public class SelectOption implements EditorOption {
         {
             if(primitive.contains(new Point2D(x,y))){
                 primitive.select(true);
+                Editor.selected.add(primitive);
             }
             else
-                if(!Editor.select)
+                if(!Editor.select) {
                     primitive.select(false);
+                    Editor.selected.remove(primitive);
+                }
             i++;
         }
     }

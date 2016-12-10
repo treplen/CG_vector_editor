@@ -24,13 +24,13 @@ public class KeyboardListener implements KeyListener {
     }
     if (e.getKeyCode() == KeyEvent.VK_DELETE) {
       List<Primitive> toRemove=new LinkedList<>();
-      for(Primitive primitive: Editor.primitives)
+      for(Primitive primitive: Editor.selected)
       {
-        if(primitive.isSelected())
-          toRemove.add(primitive);
+        toRemove.add(primitive);
       }
       for(Primitive primitive:toRemove) {
         Editor.primitives.remove(primitive);
+        Editor.selected.remove(primitive);
         List<Primitive> collapsed=primitive.collapse();
         if(collapsed!=null)
           for(Primitive primitive1:collapsed)

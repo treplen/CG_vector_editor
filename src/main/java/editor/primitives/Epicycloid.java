@@ -10,19 +10,18 @@ import java.util.List;
 /**
  * Created by svuatoslav on 11/14/16.
  */
-public class Epicycloid implements Primitive {
+public class Epicycloid extends Primitive {
 
-    private Color color;
     private Point2D center;
     private float inradius, outradius, angle;
 
     public Epicycloid(Point2D center, float inradius, float outradius, float angle, Color color)
     {
+        super("Epicycloid",color);
         this.center=center;
         this.inradius=inradius;
         this.outradius=outradius;
         this.angle=angle;
-        this.color=color;
     }
 
     public void draw(Graphics2D g)
@@ -40,9 +39,8 @@ public class Epicycloid implements Primitive {
         throw new NotImplementedException();
     }
 
-    public void change(Object placeholder)
+    public void change()
     {
-        throw new NotImplementedException();
     }
 
     public void enlarge(Float scale)
@@ -51,6 +49,11 @@ public class Epicycloid implements Primitive {
         center.setLocation(center.x+add,center.y+add);
         inradius=inradius*scale;
         outradius=outradius*scale;
+    }
+
+    @Override
+    public void enlarge(Float scale, float leftBottomX, float leftBottomY) {
+
     }
 
     public void reflect(Point2D point)
@@ -70,23 +73,7 @@ public class Epicycloid implements Primitive {
     }
 
     @Override
-    public void select(boolean select) {
-
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Epicycloid";
-    }
-
-    @Override
-    public boolean isSelected() {
-        return false;
-    }
-
-    @Override
-    public List<Primitive> collapse() {
-        return null;
+    public Point2D getLeftBottom() {
+        return new Point2D(center.x-inradius-outradius,center.y+inradius+outradius);
     }
 }
