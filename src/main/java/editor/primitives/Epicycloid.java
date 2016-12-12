@@ -34,11 +34,13 @@ public class Epicycloid extends Primitive {
     {
         g.setColor(getColor());
         float r = inradius*rotations/loops;
-        double d = 0.785398163397448 - Math.atan((inradius+r-1)/(inradius+r));
+        double d;
         for(double f = 0; f<6.28318530717959*rotations;f+=d)
         {
             Double x = (inradius + r)*Math.cos(f)-r*Math.cos(angle+((inradius+r)/r)*f)+center.x;
             Double y = (inradius + r)*Math.sin(f)-r*Math.sin(angle+((inradius+r)/r)*f)+center.y;
+            double distance=Double.max(Math.abs(x-center.x),Math.abs(y-center.y));
+            d=0.785398163397448 - Math.atan((distance-1)/(distance));
             g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
         }
     }
