@@ -46,7 +46,30 @@ public class Circle extends Primitive {
 
     public void draw(Graphics2D g) {
         g.setColor(getColor());
-        g.fillOval(Math.round(center.x - radius), Math.round(center.y - radius), Math.round(radius) * 2, Math.round(radius) * 2);
+
+        int x0=Math.round(center.x),y0=Math.round(center.y);
+        int x = 0, y = Math.round(radius), sigma = 0, delta = 2 - 2 * Math.round(radius);
+        while (y >= 0) {
+            for (int i = x0 - x; i < x0 + x; i++)
+            {
+                g.drawLine(i, y0 - y, i, y0 - y);
+                g.drawLine(i, y0 + y, i, y0 + y);
+            }
+            do {
+                sigma = 2 * (delta + y) - 1;
+                if (delta < 0 && sigma <= 0) {          //перемещение по горизонтали
+                    x++;
+                    delta += x + 1;
+                } else if (delta > 0 && sigma > 0) {    //перемещение по вертикали
+                    y--;
+                    delta -= y + 1;
+                } else {                                //перемещение по диагонали
+                    x++;
+                    delta += x - y;
+                    y--;
+                }
+            }while (delta < 0 && sigma <= 0);
+        }
     }
 
     public void move(Vec2f vector) {

@@ -1,7 +1,10 @@
 package editor.primitives;
 
 import com.sun.javafx.geom.*;
+import editor.view.dialogues.ChangeEpicycloid;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import sun.reflect.generics.tree.DoubleSignature;
+import sun.reflect.generics.tree.FloatSignature;
 
 import java.awt.*;
 import java.util.*;
@@ -13,20 +16,31 @@ import java.util.List;
 public class Epicycloid extends Primitive {
 
     private Point2D center;
-    private float inradius, outradius, angle;
+    private float inradius, angle;
+    int loops, rotations;
 
-    public Epicycloid(Point2D center, float inradius, float outradius, float angle, Color color)
+    public Epicycloid(Point2D center, float inradius, int loops, int rotations,float angle, Color color)
     {
         super("Epicycloid",color);
         this.center=center;
         this.inradius=inradius;
-        this.outradius=outradius;
-        this.angle=angle;
+        this.loops=loops;
+        this.rotations=rotations;
+        Double d =angle*3.14159265358979/180;
+        this.angle=d.floatValue();
     }
 
     public void draw(Graphics2D g)
     {
-        throw new NotImplementedException();
+        g.setColor(getColor());
+        float r = inradius*rotations/loops;
+        double d = 0.785398163397448 - Math.atan((inradius+r-1)/(inradius+r));
+        for(double f = 0; f<6.28318530717959*rotations;f+=d)
+        {
+            Double x = (inradius + r)*Math.cos(f)-r*Math.cos(angle+((inradius+r)/r)*f)+center.x;
+            Double y = (inradius + r)*Math.sin(f)-r*Math.sin(angle+((inradius+r)/r)*f)+center.y;
+            g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
+        }
     }
 
     public void move(Vec2f vector)
@@ -36,19 +50,19 @@ public class Epicycloid extends Primitive {
 
     public boolean contains(Point2D point)
     {
-        throw new NotImplementedException();
+        return center.distance(point)<inradius+2*(inradius*rotations/loops);
     }
 
     public void change()
     {
+        ChangeEpicycloid.change(this);
     }
 
     public void enlarge(Float scale)
     {
-        float add = (scale-1)*(inradius+outradius);
-        center.setLocation(center.x+add,center.y+add);
+        float add = (scale-1)*(inradius+2*(inradius*rotations/loops));
+        center.setLocation(center.x+add,center.y-add);
         inradius=inradius*scale;
-        outradius=outradius*scale;
     }
 
     @Override
@@ -74,6 +88,59 @@ public class Epicycloid extends Primitive {
 
     @Override
     public Point2D getLeftBottom() {
-        return new Point2D(center.x-inradius-outradius,center.y+inradius+outradius);
+        return new Point2D(center.x-inradius-2*(inradius*rotations/loops),center.y+inradius+2*(inradius*rotations/loops));
     }
+
+    public Point2D getCenter()
+    {
+        return center;
+    }
+
+    public float getRadius()
+    {
+        return inradius;
+    }
+
+    public int getAngle()
+    {
+        Long l = Math.round(angle*(180/3.14159265358979));
+        return l.intValue();
+    }
+
+    public int getLoops()
+    {
+        return loops;
+    }
+
+    public int getRotations()
+    {
+        return rotations;
+    }
+
+    public void setCenter(Point2D center)
+    {
+        this.center=center;
+    }
+
+    public void setRadius(float radius)
+    {
+        inradius=radius;
+    }
+
+    public void setAngle(float angle)
+    {
+        Double d =angle*3.14159265358979/180;
+        this.angle=d.floatValue();
+    }
+
+    public void setLoops(int loops)
+    {
+        this.loops=loops;
+    }
+
+    public void setRotations(int rotations)
+    {
+        this.rotations=rotations;
+    }
+
 }

@@ -51,7 +51,9 @@ public class Rectangle extends Primitive {
         maxY=Float.max(start.y,end.y);
         minY=Float.min(start.y,end.y);
         g.setColor(getColor());
-        g.fillRect(Math.round(minX),Math.round(minY),Math.round(maxX-minX),Math.round(maxY-minY));
+        for(int i = Math.round(minY);i<maxY;i++)
+            for(int j = Math.round(minX);j<maxX;j++)
+                g.drawLine(j,i,j,i);
     }
 
     public void move(Vec2f vector)

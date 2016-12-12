@@ -49,12 +49,44 @@ public class Line extends Primitive {
     public void draw(Graphics2D g)
     {
         g.setColor(getColor());
-        g.drawLine(Math.round(start.x),Math.round(start.y),Math.round(end.x),Math.round(end.y));
-        if(isSelected())
+
+        int x0=Math.round(start.x),x1=Math.round(end.x),y0=Math.round(start.y),y1=Math.round(end.y);
+        if(x1!=x0||y1!=y0)
         {
-            g.setColor(Color.black);
-            g.drawRect(Math.round(start.x)-10,Math.round(start.y)-10,20,20);
-            g.drawRect(Math.round(end.x)-10,Math.round(end.y)-10,20,20);
+            int A, B, sign;
+            A = y1-y0;
+            B = x0 - x1;
+            if (Math.abs(A) > Math.abs(B)) sign = 1;
+            else sign = -1;
+            int signa, signb;
+            if (A < 0) signa = -1;
+            else signa = 1;
+            if (B < 0) signb = -1;
+            else signb = 1;
+            int f = 0;
+            g.drawLine(x0, y0 , x0, y0);
+            int x = x0, y = y0;
+            if (sign == -1) {
+                do {
+                    f += A*signa;
+                    if (f > 0) {
+                        f -= B*signb;
+                        y+=signa;
+                    }
+                    x-=signb;
+                    g.drawLine(x,y,x,y);
+                } while (x != x1 || y != y1);
+            } else {
+                do {
+                    f += B * signb;
+                    if (f > 0) {
+                        f -= A * signa;
+                        x -= signb;
+                    }
+                    y += signa;
+                    g.drawLine(x, y, x, y);
+                } while (x != x1 || y != y1);
+            }
         }
     }
 
@@ -69,7 +101,13 @@ public class Line extends Primitive {
         if(segment)
             if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
                 return false;
-        return Math.round(point.x-start.x)/Math.round(point.y-start.y)==Math.round(end.x-start.x)/Math.round(end.y-start.y);//Возможно слишком точно
+        float right=(point.x+5-start.x)/(end.x-start.x);
+        float left=(point.x-5-start.x)/(end.x-start.x);
+        float centerY=(point.y-start.y)/(end.y-start.y);
+        float up=(point.y+5-start.y)/(end.y-start.y);
+        float down=(point.y-5-start.y)/(end.y-start.y);
+        float centerX=(point.x-start.x)/(end.x-start.x);
+        return right>centerY&&left<centerY||right<centerY&&left>centerY||up>centerX&&down<centerX||up<centerX&&down>centerX;
     }
 
     public void change()
