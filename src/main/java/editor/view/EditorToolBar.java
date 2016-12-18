@@ -125,5 +125,25 @@ public class EditorToolBar extends JMenuBar {
         });
         commandMenu.add(menuItem);
 
+        menuItem=new JMenuItem("Clear clip");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Editor.clip=null;
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
+        menuItem=new JMenuItem("Set background");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.frame.setCanvasBackground(Editor.chooser.getColor());
+                Main.update();
+            }
+        });
+        commandMenu.add(menuItem);
+
     }
 }

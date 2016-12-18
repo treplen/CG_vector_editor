@@ -37,6 +37,11 @@ public class EditorFrame extends JFrame {
 
     }
 
+    public void setCanvasBackground(Color color)
+    {
+        canvas.setBackground(color);
+    }
+
     public void render() {
         canvas.render();
     }

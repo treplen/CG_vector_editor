@@ -22,6 +22,7 @@ public class Editor {
     public final static List<Primitive> primitives=new ArrayList<>();
     public final static HashSet<Primitive> selected = new HashSet<>();
     public static Primitive tempPrimitive;
+    public static Rectangle clip=null;
     public static JColorChooser chooser;
     public static ListPanel selectPanel;
 
@@ -33,6 +34,11 @@ public class Editor {
         options.put(EpicycloidOption.class,new EpicycloidOption());
         options.put(LineOption.class,new LineOption());
         options.put(RectangleOption.class,new RectangleOption());
+        options.put(ClipOption.class,new ClipOption());
+        options.put(Tangent1Option.class,new Tangent1Option());
+        options.put(Tangent2Option.class,new Tangent2Option());
+        options.put(MirrorOption.class,new MirrorOption());
+        options.put(RemoveAdditionsOption.class,new RemoveAdditionsOption());
         currentOption=options.get(SelectOption.class);
         tempPrimitive=null;
         chooser=new JColorChooser();

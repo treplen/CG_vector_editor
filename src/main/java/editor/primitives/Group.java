@@ -58,6 +58,17 @@ public class Group extends Primitive {
             primitive.draw(g);
     }
 
+    @Override
+    public void draw(Graphics2D g, Rectangle clip) {
+        float right = Float.max(clip.getStart().x,clip.getEnd().x);
+        float left = Float.min(clip.getStart().x,clip.getEnd().x);
+        float down = Float.max(clip.getStart().y,clip.getEnd().y);
+        float up = Float.min(clip.getStart().y,clip.getEnd().y);
+        for (Primitive primitive : contains)
+            if(primitive.collides(left,up,right,down))
+                primitive.draw(g,clip);
+    }
+
     public void move(final Vec2f vector)
     {
         for (Primitive primitive : contains)
@@ -130,5 +141,13 @@ public class Group extends Primitive {
             leftBottomY=Float.max(leftBottomY,primitive.getLeftBottom().y);
         }
         return new Point2D(leftBottomX,leftBottomY);
+    }
+
+    @Override
+    public boolean collides(float left, float up, float right, float down) {
+        for(Primitive primitive:contains)
+            if(primitive.collides(left, up, right, down))
+                return true;
+        return false;
     }
 }

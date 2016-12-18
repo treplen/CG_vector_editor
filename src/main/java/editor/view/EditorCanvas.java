@@ -29,12 +29,23 @@ public class EditorCanvas extends JPanel {
     public void render() {
         Graphics ggg = screen.getGraphics();
         Graphics2D g = ((Graphics2D) ggg);
-        g.setColor(new Color(255, 255, 255));
+        g.setColor(getBackground());
         g.fillRect(0, 0, EditorFrame.size.width, EditorFrame.size.height);
 
-       for(Primitive primitive: Editor.primitives)
-           primitive.draw(g);
-        if(Editor.tempPrimitive!=null)
+        if(Editor.clip==null) {
+            for (Primitive primitive : Editor.primitives)
+                primitive.draw(g);
+        }
+        else {
+            float left = Float.min(Editor.clip.getStart().x,Editor.clip.getEnd().x);
+            float right = Float.max(Editor.clip.getStart().x,Editor.clip.getEnd().x);
+            float up = Float.min(Editor.clip.getStart().y,Editor.clip.getEnd().y);
+            float down = Float.max(Editor.clip.getStart().y,Editor.clip.getEnd().y);
+            for (Primitive primitive : Editor.primitives)
+                if(primitive.collides(left, up,right,down))
+                    primitive.draw(g,Editor.clip);
+        }
+        if (Editor.tempPrimitive != null)
             Editor.tempPrimitive.draw(g);
 
         g.dispose();

@@ -15,15 +15,13 @@ import java.util.List;
 public class Line extends Primitive {
 
     private Point2D start, end;
-    private boolean segment;
     boolean fixed;
 
-    public Line(Point2D start, Point2D end, Color color, boolean segment)
+    public Line(Point2D start, Point2D end, Color color)
     {
         super("Line",color);
         this.start=start;
         this.end=end;
-        this.segment=segment;
         fixed=true;
     }
 
@@ -32,7 +30,6 @@ public class Line extends Primitive {
         super("Line",color);
         this.start=start;
         this.end=start;
-        this.segment=true;
         fixed=false;
     }
 
@@ -88,6 +85,55 @@ public class Line extends Primitive {
                 } while (x != x1 || y != y1);
             }
         }
+        drawAdditions(g);
+    }
+
+    @Override
+    public void draw(Graphics2D g, Rectangle clip) {
+        g.setColor(getColor());
+
+        int x0=Math.round(start.x),x1=Math.round(end.x),y0=Math.round(start.y),y1=Math.round(end.y);
+        if(x1!=x0||y1!=y0)
+        {
+            int A, B, sign;
+            A = y1-y0;
+            B = x0 - x1;
+            if (Math.abs(A) > Math.abs(B)) sign = 1;
+            else sign = -1;
+            int signa, signb;
+            if (A < 0) signa = -1;
+            else signa = 1;
+            if (B < 0) signb = -1;
+            else signb = 1;
+            int f = 0;
+            if(clip.contains(new Point2D(x0,y0)))
+                g.drawLine(x0, y0 , x0, y0);
+            int x = x0, y = y0;
+            if (sign == -1) {
+                do {
+                    f += A*signa;
+                    if (f > 0) {
+                        f -= B*signb;
+                        y+=signa;
+                    }
+                    x-=signb;
+                    if(clip.contains(new Point2D(x,y)))
+                        g.drawLine(x,y,x,y);
+                } while (x != x1 || y != y1);
+            } else {
+                do {
+                    f += B * signb;
+                    if (f > 0) {
+                        f -= A * signa;
+                        x -= signb;
+                    }
+                    y += signa;
+                    if(clip.contains(new Point2D(x,y)))
+                        g.drawLine(x, y, x, y);
+                } while (x != x1 || y != y1);
+            }
+        }
+        drawAdditions(g,clip);
     }
 
     public void move(Vec2f vector)
@@ -98,9 +144,8 @@ public class Line extends Primitive {
 
     public boolean contains(Point2D point)
     {
-        if(segment)
-            if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
-                return false;
+        if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
+            return false;
         float right=(point.x+5-start.x)/(end.x-start.x);
         float left=(point.x-5-start.x)/(end.x-start.x);
         float centerY=(point.y-start.y)/(end.y-start.y);
@@ -162,6 +207,16 @@ public class Line extends Primitive {
     @Override
     public Point2D getLeftBottom() {
         return new Point2D(Float.min(start.x,end.x),Float.max(start.y,end.y));
+    }
+
+    @Override
+    public boolean collides(float left, float up, float right, float down) {
+        float leftC=Float.min(start.x,end.x);
+        float rightC=Float.max(start.x,end.x);
+        float upC=Float.min(start.y,end.y);
+        float downC=Float.max(start.y,end.y);
+        return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
     }
 
     public Point2D getStart()

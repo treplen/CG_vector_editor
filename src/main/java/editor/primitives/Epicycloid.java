@@ -43,6 +43,24 @@ public class Epicycloid extends Primitive {
             d=0.785398163397448 - Math.atan((distance-1)/(distance));
             g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
         }
+        drawAdditions(g);
+    }
+
+    @Override
+    public void draw(Graphics2D g, Rectangle clip) {
+        g.setColor(getColor());
+        float r = inradius*rotations/loops;
+        double d;
+        for(double f = 0; f<6.28318530717959*rotations;f+=d)
+        {
+            Double x = (inradius + r)*Math.cos(f)-r*Math.cos(angle+((inradius+r)/r)*f)+center.x;
+            Double y = (inradius + r)*Math.sin(f)-r*Math.sin(angle+((inradius+r)/r)*f)+center.y;
+            double distance=Double.max(Math.abs(x-center.x),Math.abs(y-center.y));
+            d=0.785398163397448 - Math.atan((distance-1)/(distance));
+            if(clip.contains(new Point2D(x.floatValue(),y.floatValue())))
+                g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
+        }
+        drawAdditions(g,clip);
     }
 
     public void move(Vec2f vector)
@@ -52,7 +70,7 @@ public class Epicycloid extends Primitive {
 
     public boolean contains(Point2D point)
     {
-        return center.distance(point)<inradius+2*(inradius*rotations/loops);
+        return (center.distance(point)<inradius+2*(inradius*rotations/loops))&&(center.distance(point)>inradius);
     }
 
     public void change()
@@ -75,7 +93,7 @@ public class Epicycloid extends Primitive {
     public void reflect(Point2D point)
     {
         center.setLocation(2*point.x-center.x,2*point.y-center.y);
-        angle=(angle+180)%360;
+        angle= (float) ((angle+Math.PI)%(2*Math.PI));
     }
 
     @Override
@@ -91,6 +109,17 @@ public class Epicycloid extends Primitive {
     @Override
     public Point2D getLeftBottom() {
         return new Point2D(center.x-inradius-2*(inradius*rotations/loops),center.y+inradius+2*(inradius*rotations/loops));
+    }
+
+    @Override
+    public boolean collides(float left, float up, float right, float down) {
+        float radius = inradius+2*(inradius*rotations/loops);
+        float leftC=center.x-radius;
+        float rightC=center.x+radius;
+        float upC=center.y-radius;
+        float downC=center.y+radius;
+        return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
     }
 
     public Point2D getCenter()

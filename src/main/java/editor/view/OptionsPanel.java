@@ -14,7 +14,7 @@ public class OptionsPanel extends JPanel {
     public OptionsPanel()
     {
 
-        setLayout(new GridLayout(5,1));
+        setLayout(new GridLayout(5,2));
         try {
             JButton button = new SelectButton();
             add(button);
@@ -23,7 +23,19 @@ public class OptionsPanel extends JPanel {
             e.printStackTrace();
         }
         try {
+            JButton button = new ClipButton();
+            add(button);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             JButton button = new LineButton();
+            add(button);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            JButton button = new Tangent1Button();
             add(button);
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,9 +48,21 @@ public class OptionsPanel extends JPanel {
             e.printStackTrace();
         }
         try {
+            JButton button = new Tangent2Button();
+            add(button);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             JButton button = new CircleButton();
             add(button);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            JButton button = new MirrorButton();
+            add(button);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,5 +72,12 @@ public class OptionsPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            JButton button = new RemoveAdditionsButton();
+            add(button);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

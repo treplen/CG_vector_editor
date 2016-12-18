@@ -54,6 +54,22 @@ public class Rectangle extends Primitive {
         for(int i = Math.round(minY);i<maxY;i++)
             for(int j = Math.round(minX);j<maxX;j++)
                 g.drawLine(j,i,j,i);
+        drawAdditions(g);
+    }
+
+    @Override
+    public void draw(Graphics2D g, Rectangle clip) {
+        float maxX,maxY,minX,minY;
+        maxX=Float.max(start.x,end.x);
+        minX=Float.min(start.x,end.x);
+        maxY=Float.max(start.y,end.y);
+        minY=Float.min(start.y,end.y);
+        g.setColor(getColor());
+        for(int i = Math.round(minY);i<maxY;i++)
+            for(int j = Math.round(minX);j<maxX;j++)
+                if(clip.contains(new Point2D(j,i)))
+                    g.drawLine(j,i,j,i);
+        drawAdditions(g,clip);
     }
 
     public void move(Vec2f vector)
@@ -121,6 +137,16 @@ public class Rectangle extends Primitive {
     @Override
     public Point2D getLeftBottom() {
         return new Point2D(Float.min(start.x,end.x),Float.max(start.y,end.y));
+    }
+
+    @Override
+    public boolean collides(float left, float up, float right, float down) {
+        float leftC=Float.min(start.x,end.x);
+        float rightC=Float.max(start.x,end.x);
+        float upC=Float.min(start.y,end.y);
+        float downC=Float.max(start.y,end.y);
+        return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
     }
 
     public Point2D getStart()

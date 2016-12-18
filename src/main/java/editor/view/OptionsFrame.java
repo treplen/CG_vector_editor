@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class OptionsFrame extends JFrame {
     public OptionsPanel options;
-    public static Dimension size = new Dimension(50, 300);
+    public static Dimension size = new Dimension(100, 300);
 
     public OptionsFrame(){
         setSize(size);
