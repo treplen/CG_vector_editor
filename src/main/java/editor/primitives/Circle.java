@@ -44,7 +44,10 @@ public class Circle extends Primitive {
         this.center = center;
     }
 
+    @Override
     public void draw(Graphics2D g) {
+        if(!viewable())
+            return;
         g.setColor(getColor());
 
         int x0=Math.round(center.x),y0=Math.round(center.y);
@@ -52,8 +55,10 @@ public class Circle extends Primitive {
         while (y >= 0) {
             for (int i = x0 - x; i < x0 + x; i++)
             {
-                g.drawLine(i, y0 - y, i, y0 - y);
-                g.drawLine(i, y0 + y, i, y0 + y);
+                if(clips(i,y0-y))
+                    g.drawLine(i, y0 - y, i, y0 - y);
+                if(clips(i,y0+y))
+                    g.drawLine(i, y0 + y, i, y0 + y);
             }
             do {
                 sigma = 2 * (delta + y) - 1;
@@ -73,40 +78,9 @@ public class Circle extends Primitive {
         drawAdditions(g);
     }
 
-    @Override
-    public void draw(Graphics2D g, Rectangle clip) {
-        g.setColor(getColor());
-
-        int x0=Math.round(center.x),y0=Math.round(center.y);
-        int x = 0, y = Math.round(radius), sigma = 0, delta = 2 - 2 * Math.round(radius);
-        while (y >= 0) {
-            for (int i = x0 - x; i < x0 + x; i++)
-            {
-                if(clip.contains(new Point2D(i, y0 - y)))
-                    g.drawLine(i, y0 - y, i, y0 - y);
-                if(clip.contains(new Point2D(i, y0 + y)))
-                    g.drawLine(i, y0 + y, i, y0 + y);
-            }
-            do {
-                sigma = 2 * (delta + y) - 1;
-                if (delta < 0 && sigma <= 0) {          //перемещение по горизонтали
-                    x++;
-                    delta += x + 1;
-                } else if (delta > 0 && sigma > 0) {    //перемещение по вертикали
-                    y--;
-                    delta -= y + 1;
-                } else {                                //перемещение по диагонали
-                    x++;
-                    delta += x - y;
-                    y--;
-                }
-            }while (delta < 0 && sigma <= 0);
-        }
-        drawAdditions(g,clip);
-    }
-
     public void move(Vec2f vector) {
         center.setLocation(center.x + vector.x, center.y + vector.y);
+        moveClip(vector);
     }
 
     public boolean contains(Point2D point) {
@@ -131,6 +105,7 @@ public class Circle extends Primitive {
 
     public void reflect(Point2D point) {
         center.setLocation(2 * point.x - center.x, 2 * point.y - center.y);
+        reflectClip(point);
     }
 
     @Override
@@ -160,7 +135,8 @@ public class Circle extends Primitive {
         float upC=center.y-radius;
         float downC=center.y+radius;
         return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
-                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up))||
+                (leftC>left&&rightC<right&&upC<up&&downC>down)||(leftC<left&&rightC>right&&upC>up&&downC<down);
     }
 
     public float getRadius()

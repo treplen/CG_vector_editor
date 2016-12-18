@@ -2,6 +2,7 @@ package editor.options;
 
 import com.sun.javafx.geom.Point2D;
 import editor.Editor;
+import editor.primitives.Primitive;
 import editor.primitives.Rectangle;
 
 /**
@@ -16,7 +17,8 @@ public class ClipOption implements EditorOption {
             boolean done;
             done = Editor.tempPrimitive.step(x, y);
             if (done) {
-                Editor.clip=(Rectangle) Editor.tempPrimitive;
+                for(Primitive primitive:Editor.selected)
+                    primitive.setClip((Rectangle) Editor.tempPrimitive);
                 Editor.tempPrimitive = null;
             }
         }

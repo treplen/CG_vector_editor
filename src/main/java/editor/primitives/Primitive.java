@@ -13,7 +13,6 @@ import java.util.List;
 public abstract class Primitive {
 
     public abstract void draw(Graphics2D g);
-    public abstract void draw(Graphics2D g,Rectangle clip);
     public abstract void move(Vec2f vector);
     public abstract boolean contains(Point2D point);
     public abstract void change();
@@ -31,6 +30,50 @@ public abstract class Primitive {
     private String name;
     private Color color;
     private Color selectColor;
+    private Rectangle clip=null;
+
+    public void setClip(Rectangle clip)
+    {
+        if(clip==null||this.clip==null)
+            this.clip=clip;
+        else
+        {
+            this.clip.setStart(new Point2D(Float.max(Float.min(this.clip.getStart().x,this.clip.getEnd().x),Float.min(clip.getStart().x,clip.getEnd().x)),Float.max(Float.min(this.clip.getStart().y,this.clip.getEnd().y),Float.min(clip.getStart().y,clip.getEnd().y))));
+            this.clip.setEnd(new Point2D(Float.min(Float.max(this.clip.getStart().x,this.clip.getEnd().x),Float.max(clip.getStart().x,clip.getEnd().x)),Float.min(Float.max(this.clip.getStart().y,this.clip.getEnd().y),Float.max(clip.getStart().y,clip.getEnd().y))));
+        }
+    }
+
+    public void moveClip(Vec2f vector)
+    {
+        if(clip!=null) {
+            this.clip.setStart(new Point2D(clip.getStart().x + vector.x, clip.getStart().y + vector.y));
+            this.clip.setEnd(new Point2D(clip.getEnd().x + vector.x, clip.getEnd().y + vector.y));
+        }
+    }
+
+    public void reflectClip(Point2D point)
+    {
+        if(clip!=null)
+            clip.reflect(point);
+    }
+
+    public boolean viewable()
+    {
+        if(clip==null)
+            return true;
+        float leftC=Float.min(clip.getStart().x,clip.getEnd().x);
+        float rightC=Float.max(clip.getStart().x,clip.getEnd().x);
+        float upC=Float.min(clip.getStart().y,clip.getEnd().y);
+        float downC=Float.max(clip.getStart().y,clip.getEnd().y);
+        return collides(leftC,upC,rightC,downC);
+    }
+
+    public boolean clips(float x,  float y)
+    {
+        if(clip==null)
+            return true;
+        return clip.contains(new Point2D(x,y));
+    }
 
     public void addAddition(Addition addition)
     {
@@ -57,11 +100,6 @@ public abstract class Primitive {
     {
         for(Addition addition:additions)
             addition.draw(g);
-    }
-    public void drawAdditions(Graphics2D g, Rectangle clip)
-    {
-        for(Addition addition:additions)
-            addition.draw(g,clip);
     }
 
     public List<Primitive> collapse()

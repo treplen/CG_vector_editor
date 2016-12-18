@@ -2,6 +2,7 @@ package editor.controller;
 
 import editor.Editor;
 import editor.Main;
+import editor.view.EditorFrame;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,7 +16,7 @@ public class MouseListenerImpl implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        Editor.currentOption.exec(e.getX(),e.getY()-60);
+        Editor.currentOption.exec(e.getX()+ EditorFrame.scrollPane.getHorizontalScrollBar().getValue(),e.getY()+EditorFrame.scrollPane.getVerticalScrollBar().getValue());
         Main.update();
     }
 

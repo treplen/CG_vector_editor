@@ -22,7 +22,6 @@ public class Editor {
     public final static List<Primitive> primitives=new ArrayList<>();
     public final static HashSet<Primitive> selected = new HashSet<>();
     public static Primitive tempPrimitive;
-    public static Rectangle clip=null;
     public static JColorChooser chooser;
     public static ListPanel selectPanel;
 

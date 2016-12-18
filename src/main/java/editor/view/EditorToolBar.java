@@ -129,7 +129,8 @@ public class EditorToolBar extends JMenuBar {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Editor.clip=null;
+                for(Primitive primitive:Editor.selected)
+                    primitive.setClip(null);
                 Main.update();
             }
         });

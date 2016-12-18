@@ -43,22 +43,10 @@ public class Rectangle extends Primitive {
         this.end=end;
     }
 
-    public void draw(Graphics2D g)
-    {
-        float maxX,maxY,minX,minY;
-        maxX=Float.max(start.x,end.x);
-        minX=Float.min(start.x,end.x);
-        maxY=Float.max(start.y,end.y);
-        minY=Float.min(start.y,end.y);
-        g.setColor(getColor());
-        for(int i = Math.round(minY);i<maxY;i++)
-            for(int j = Math.round(minX);j<maxX;j++)
-                g.drawLine(j,i,j,i);
-        drawAdditions(g);
-    }
-
     @Override
-    public void draw(Graphics2D g, Rectangle clip) {
+    public void draw(Graphics2D g) {
+        if(!viewable())
+            return;
         float maxX,maxY,minX,minY;
         maxX=Float.max(start.x,end.x);
         minX=Float.min(start.x,end.x);
@@ -67,15 +55,16 @@ public class Rectangle extends Primitive {
         g.setColor(getColor());
         for(int i = Math.round(minY);i<maxY;i++)
             for(int j = Math.round(minX);j<maxX;j++)
-                if(clip.contains(new Point2D(j,i)))
+                if(clips(j,i))
                     g.drawLine(j,i,j,i);
-        drawAdditions(g,clip);
+        drawAdditions(g);
     }
 
     public void move(Vec2f vector)
     {
         start.setLocation(start.x+vector.x,start.y+vector.y);
         end.setLocation(end.x+vector.x,end.y+vector.y);
+        moveClip(vector);
     }
 
     public boolean contains(Point2D point)
@@ -117,6 +106,7 @@ public class Rectangle extends Primitive {
     {
         start.setLocation(2*point.x-start.x,2*point.y-start.y);
         end.setLocation(2*point.x-end.x,2*point.y-end.y);
+        reflectClip(point);
     }
 
     @Override
@@ -146,7 +136,8 @@ public class Rectangle extends Primitive {
         float upC=Float.min(start.y,end.y);
         float downC=Float.max(start.y,end.y);
         return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
-                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up))||
+                (leftC>left&&rightC<right&&upC<up&&downC>down)||(leftC<left&&rightC>right&&upC>up&&downC<down);
     }
 
     public Point2D getStart()

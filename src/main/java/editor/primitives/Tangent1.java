@@ -36,78 +36,7 @@ public class Tangent1 extends Addition {
             if (B < 0) signb = -1;
             else signb = 1;
             int f = 0;
-            g.drawLine(x0, y0 , x0, y0);
-            int x = x0, y = y0;
-            if (sign == -1) {
-                do {
-                    f += A*signa;
-                    if (f > 0) {
-                        f -= B*signb;
-                        y+=signa;
-                    }
-                    x-=signb;
-                    g.drawLine(x,y,x,y);
-                } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
-            } else {
-                do {
-                    f += B * signb;
-                    if (f > 0) {
-                        f -= A * signa;
-                        x -= signb;
-                    }
-                    y += signa;
-                    g.drawLine(x, y, x, y);
-                } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
-            }
-            f = 0;
-            x = x0;
-            y = y0;
-            if (sign == -1) {
-                do {
-                    f += A*signa;
-                    if (f > 0) {
-                        f -= B*signb;
-                        y-=signa;
-                    }
-                    x+=signb;
-                    g.drawLine(x,y,x,y);
-                } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
-            } else {
-                do {
-                    f += B * signb;
-                    if (f > 0) {
-                        f -= A * signa;
-                        x += signb;
-                    }
-                    y -= signa;
-                    g.drawLine(x, y, x, y);
-                } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
-            }
-        }
-    }
-
-    @Override
-    public void draw(Graphics2D g, Rectangle clip) {
-        g.setColor(getColor());
-
-        if(circle.contains(new Point2D(x,y)))
-            return;
-        set();
-        int x0=Math.round(this.x),x1=Math.round(this.x1),y0=Math.round(this.y),y1=Math.round(this.y1);
-        if(x1!=x0||y1!=y0)
-        {
-            int A, B, sign;
-            A = y1-y0;
-            B = x0 - x1;
-            if (Math.abs(A) > Math.abs(B)) sign = 1;
-            else sign = -1;
-            int signa, signb;
-            if (A < 0) signa = -1;
-            else signa = 1;
-            if (B < 0) signb = -1;
-            else signb = 1;
-            int f = 0;
-            if(clip.contains(new Point2D(x0,y0)))
+            if(clips(x0,y0))
                 g.drawLine(x0, y0 , x0, y0);
             int x = x0, y = y0;
             if (sign == -1) {
@@ -118,7 +47,7 @@ public class Tangent1 extends Addition {
                         y+=signa;
                     }
                     x-=signb;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x,y,x,y);
                 } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
             } else {
@@ -129,7 +58,7 @@ public class Tangent1 extends Addition {
                         x -= signb;
                     }
                     y += signa;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x, y, x, y);
                 } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
             }
@@ -144,7 +73,7 @@ public class Tangent1 extends Addition {
                         y-=signa;
                     }
                     x+=signb;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x,y,x,y);
                 } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
             } else {
@@ -155,7 +84,7 @@ public class Tangent1 extends Addition {
                         x += signb;
                     }
                     y -= signa;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x, y, x, y);
                 } while (x < EditorFrame.size.width && x>0 && y >0 && y<EditorFrame.size.height);
             }

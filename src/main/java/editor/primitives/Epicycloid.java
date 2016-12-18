@@ -30,24 +30,10 @@ public class Epicycloid extends Primitive {
         this.angle=d.floatValue();
     }
 
-    public void draw(Graphics2D g)
-    {
-        g.setColor(getColor());
-        float r = inradius*rotations/loops;
-        double d;
-        for(double f = 0; f<6.28318530717959*rotations;f+=d)
-        {
-            Double x = (inradius + r)*Math.cos(f)-r*Math.cos(angle+((inradius+r)/r)*f)+center.x;
-            Double y = (inradius + r)*Math.sin(f)-r*Math.sin(angle+((inradius+r)/r)*f)+center.y;
-            double distance=Double.max(Math.abs(x-center.x),Math.abs(y-center.y));
-            d=0.785398163397448 - Math.atan((distance-1)/(distance));
-            g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
-        }
-        drawAdditions(g);
-    }
-
     @Override
-    public void draw(Graphics2D g, Rectangle clip) {
+    public void draw(Graphics2D g) {
+        if(!viewable())
+            return;
         g.setColor(getColor());
         float r = inradius*rotations/loops;
         double d;
@@ -57,15 +43,16 @@ public class Epicycloid extends Primitive {
             Double y = (inradius + r)*Math.sin(f)-r*Math.sin(angle+((inradius+r)/r)*f)+center.y;
             double distance=Double.max(Math.abs(x-center.x),Math.abs(y-center.y));
             d=0.785398163397448 - Math.atan((distance-1)/(distance));
-            if(clip.contains(new Point2D(x.floatValue(),y.floatValue())))
+            if(clips(x.floatValue(),y.floatValue()))
                 g.drawLine(x.intValue(),y.intValue(),x.intValue(),y.intValue());
         }
-        drawAdditions(g,clip);
+        drawAdditions(g);
     }
 
     public void move(Vec2f vector)
     {
         center.setLocation(center.x+vector.x,center.y+vector.y);
+        moveClip(vector);
     }
 
     public boolean contains(Point2D point)
@@ -94,6 +81,7 @@ public class Epicycloid extends Primitive {
     {
         center.setLocation(2*point.x-center.x,2*point.y-center.y);
         angle= (float) ((angle+Math.PI)%(2*Math.PI));
+        reflectClip(point);
     }
 
     @Override
@@ -119,7 +107,8 @@ public class Epicycloid extends Primitive {
         float upC=center.y-radius;
         float downC=center.y+radius;
         return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
-                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up))||
+                (leftC>left&&rightC<right&&upC<up&&downC>down)||(leftC<left&&rightC>right&&upC>up&&downC<down);
     }
 
     public Point2D getCenter()

@@ -43,53 +43,10 @@ public class Line extends Primitive {
         this.end=end;
     }
 
-    public void draw(Graphics2D g)
-    {
-        g.setColor(getColor());
-
-        int x0=Math.round(start.x),x1=Math.round(end.x),y0=Math.round(start.y),y1=Math.round(end.y);
-        if(x1!=x0||y1!=y0)
-        {
-            int A, B, sign;
-            A = y1-y0;
-            B = x0 - x1;
-            if (Math.abs(A) > Math.abs(B)) sign = 1;
-            else sign = -1;
-            int signa, signb;
-            if (A < 0) signa = -1;
-            else signa = 1;
-            if (B < 0) signb = -1;
-            else signb = 1;
-            int f = 0;
-            g.drawLine(x0, y0 , x0, y0);
-            int x = x0, y = y0;
-            if (sign == -1) {
-                do {
-                    f += A*signa;
-                    if (f > 0) {
-                        f -= B*signb;
-                        y+=signa;
-                    }
-                    x-=signb;
-                    g.drawLine(x,y,x,y);
-                } while (x != x1 || y != y1);
-            } else {
-                do {
-                    f += B * signb;
-                    if (f > 0) {
-                        f -= A * signa;
-                        x -= signb;
-                    }
-                    y += signa;
-                    g.drawLine(x, y, x, y);
-                } while (x != x1 || y != y1);
-            }
-        }
-        drawAdditions(g);
-    }
-
     @Override
-    public void draw(Graphics2D g, Rectangle clip) {
+    public void draw(Graphics2D g) {
+        if(!viewable())
+            return;
         g.setColor(getColor());
 
         int x0=Math.round(start.x),x1=Math.round(end.x),y0=Math.round(start.y),y1=Math.round(end.y);
@@ -106,7 +63,7 @@ public class Line extends Primitive {
             if (B < 0) signb = -1;
             else signb = 1;
             int f = 0;
-            if(clip.contains(new Point2D(x0,y0)))
+            if(clips(x0,y0))
                 g.drawLine(x0, y0 , x0, y0);
             int x = x0, y = y0;
             if (sign == -1) {
@@ -117,7 +74,7 @@ public class Line extends Primitive {
                         y+=signa;
                     }
                     x-=signb;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x,y,x,y);
                 } while (x != x1 || y != y1);
             } else {
@@ -128,18 +85,19 @@ public class Line extends Primitive {
                         x -= signb;
                     }
                     y += signa;
-                    if(clip.contains(new Point2D(x,y)))
+                    if(clips(x,y))
                         g.drawLine(x, y, x, y);
                 } while (x != x1 || y != y1);
             }
         }
-        drawAdditions(g,clip);
+        drawAdditions(g);
     }
 
     public void move(Vec2f vector)
     {
         start.setLocation(start.x+vector.x,start.y+vector.y);
         end.setLocation(end.x+vector.x,end.y+vector.y);
+        moveClip(vector);
     }
 
     public boolean contains(Point2D point)
@@ -187,6 +145,7 @@ public class Line extends Primitive {
     {
         start.setLocation(2*point.x-start.x,2*point.y-start.y);
         end.setLocation(2*point.x-end.x,2*point.y-end.y);
+        reflectClip(point);
     }
 
     @Override
@@ -216,7 +175,8 @@ public class Line extends Primitive {
         float upC=Float.min(start.y,end.y);
         float downC=Float.max(start.y,end.y);
         return ((left>leftC&&left<rightC&&down<downC&&down>upC)||(right>leftC&&right<rightC&&up<downC&&up>upC)||
-                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up));
+                (leftC>left&&leftC<right&&upC<down&&upC>up)||(rightC>left&&rightC<right&&downC<down&&downC>up))||
+                (leftC>left&&rightC<right&&upC<up&&downC>down)||(leftC<left&&rightC>right&&upC>up&&downC<down);
     }
 
     public Point2D getStart()

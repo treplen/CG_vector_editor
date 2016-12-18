@@ -14,18 +14,25 @@ public class EditorFrame extends JFrame {
     public EditorCanvas canvas;
     public EditorToolBar toolBar;
     public static double mouseX, mouseY;
-    public static Dimension size = new Dimension(1100, 700);
+    public static Dimension size = new Dimension(2200, 1400);
+    public static Dimension screenSize = new Dimension(1100,700);
+    public static JScrollPane scrollPane;
 
     public EditorFrame() {
-        setSize(size);
-        setMinimumSize(size);
-        setMaximumSize(size);
-        setPreferredSize(size);
-        addKeyListener(new KeyboardListener());
-        addMouseListener(new MouseListenerImpl());
-        addMouseMotionListener(new MouseMotionListenerImpl());
+        setSize(screenSize);
+        setMinimumSize(screenSize);
+        setMaximumSize(screenSize);
+        setPreferredSize(screenSize);
         canvas = new EditorCanvas();
-        getContentPane().add(canvas);
+        scrollPane = new JScrollPane(canvas);
+        scrollPane.setSize(screenSize);
+        scrollPane.setMinimumSize(screenSize);
+        scrollPane.setMaximumSize(screenSize);
+        scrollPane.setPreferredSize(screenSize);
+        addKeyListener(new KeyboardListener());
+        scrollPane.addMouseListener(new MouseListenerImpl());
+        scrollPane.addMouseMotionListener(new MouseMotionListenerImpl());
+        getContentPane().add(scrollPane);
         toolBar=new EditorToolBar();
         setJMenuBar(toolBar);
         setResizable(false);

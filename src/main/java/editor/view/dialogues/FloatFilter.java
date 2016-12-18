@@ -13,7 +13,7 @@ public class FloatFilter extends DocumentFilter {
     public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException {
         String text = fb.getDocument().getText(0,fb.getDocument().getLength());
         text+=str;
-        if(text.matches("^\\d*\\.?\\d*$"))
+        if(text.matches("^-?\\d*\\.?\\d*$"))
             super.replace(fb,offs,length,str,a);
         else
             Toolkit.getDefaultToolkit().beep();

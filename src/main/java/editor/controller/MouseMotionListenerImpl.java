@@ -20,7 +20,7 @@ public class MouseMotionListenerImpl implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         if(Editor.tempPrimitive!=null) {
-            Editor.tempPrimitive.sendMsg(e.getX(), e.getY()-60);
+            Editor.tempPrimitive.sendMsg(e.getX()+EditorFrame.scrollPane.getHorizontalScrollBar().getValue(), e.getY()+EditorFrame.scrollPane.getVerticalScrollBar().getValue());
             Main.update();
         }
     }
