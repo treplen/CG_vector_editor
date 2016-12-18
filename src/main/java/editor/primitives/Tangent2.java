@@ -118,22 +118,13 @@ public class Tangent2 extends Addition {
         a = ((circle1.getX()-circle2.getX()) * r + (circle1.getY()-circle2.getY()) * d) / z;
         b = ((circle1.getY()-circle2.getY()) * r - (circle1.getX()-circle2.getX()) * d) / z;
         c = -circle1.getRadius() - a * circle1.getX() - b * circle1.getY();
-        if(d0>(d1=Math.abs(a*point.x+b*point.y+c)/Math.sqrt(a*a+b*b))) {
+        if(d0>(Math.abs(a*point.x+b*point.y+c)/Math.sqrt(a*a+b*b))) {
             x1=0;
             y1= (float) (-c/b);
             x2= EditorFrame.size.width;
             y2= (float) ((-c-a*x2)/b);
         }
-        if(y1<0)
-        {
-            y1=0;
-            x1= (float) (-c/a);
         }
-        if(y2> EditorFrame.size.height)
-        {
-            y2=EditorFrame.size.height;
-            x2=(float) ((-c-b*y2)/a);
-        }}
 
     @Override
     public void delete() {
