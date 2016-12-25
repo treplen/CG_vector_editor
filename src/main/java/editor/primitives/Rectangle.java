@@ -3,11 +3,8 @@ package editor.primitives;
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
 import editor.view.dialogues.ChangeRectangle;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * Created by svuatoslav on 11/14/16.
@@ -16,6 +13,7 @@ public class Rectangle extends Primitive {
 
     private Point2D start, end;
     boolean fix;
+    boolean empty;
 
     public Rectangle(Point2D start, Point2D end, Color color)
     {
@@ -23,6 +21,16 @@ public class Rectangle extends Primitive {
         this.start=start;
         this.end=end;
         fix=true;
+        empty=false;
+    }
+
+    public Rectangle(Point2D start, Point2D end, boolean empty, Color color)
+    {
+        super("Rectangle",color);
+        this.start=start;
+        this.end=end;
+        fix=true;
+        this.empty=empty;
     }
 
     public Rectangle(Point2D start, Color color)
@@ -31,6 +39,15 @@ public class Rectangle extends Primitive {
         this.start=start;
         this.end=start;
         fix=false;
+    }
+
+    public Rectangle(Point2D start, boolean empty, Color color)
+    {
+        super("Rectangle",color);
+        this.start=start;
+        this.end=start;
+        fix=false;
+        this.empty=empty;
     }
 
     void setStart(Point2D start)
@@ -47,16 +64,34 @@ public class Rectangle extends Primitive {
     public void draw(Graphics2D g) {
         if(!viewable())
             return;
-        float maxX,maxY,minX,minY;
-        maxX=Float.max(start.x,end.x);
-        minX=Float.min(start.x,end.x);
-        maxY=Float.max(start.y,end.y);
-        minY=Float.min(start.y,end.y);
+        float maxX, maxY, minX, minY;
+        maxX = Float.max(start.x, end.x);
+        minX = Float.min(start.x, end.x);
+        maxY = Float.max(start.y, end.y);
+        minY = Float.min(start.y, end.y);
         g.setColor(getColor());
-        for(int i = Math.round(minY);i<maxY;i++)
-            for(int j = Math.round(minX);j<maxX;j++)
-                if(clips(j,i))
-                    g.drawLine(j,i,j,i);
+        if(!empty) {
+            for (int i = Math.round(minY); i < maxY; i++)
+                for (int j = Math.round(minX); j < maxX; j++)
+                    if (clips(j, i))
+                        g.drawLine(j, i, j, i);
+        }
+        else {
+            int x = Math.round(minX);
+            int y = Math.round(minY);
+            for(;x<maxX;x++)
+                if (clips(x, y))
+                    g.drawLine(x, y, x, y);
+            for(;y<maxY;y++)
+                if (clips(x, y))
+                    g.drawLine(x, y, x, y);
+            for(;x>minX;x--)
+                if (clips(x, y))
+                    g.drawLine(x, y, x, y);
+            for(;y>minY;y--)
+                if (clips(x, y))
+                    g.drawLine(x, y, x, y);
+        }
         drawAdditions(g);
     }
 

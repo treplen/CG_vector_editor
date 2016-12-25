@@ -12,7 +12,7 @@ public class ClipOption implements EditorOption {
     @Override
     public void exec(float x, float y) {
         if(Editor.tempPrimitive==null)
-            Editor.tempPrimitive=new Rectangle(new Point2D(x,y),Editor.chooser.getColor());
+            Editor.tempPrimitive=new Rectangle(new Point2D(x,y),true,Editor.chooser.getColor());
         else {
             boolean done;
             done = Editor.tempPrimitive.step(x, y);
