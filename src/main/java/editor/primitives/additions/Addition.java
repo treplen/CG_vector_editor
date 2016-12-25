@@ -1,7 +1,8 @@
-package editor.primitives;
+package editor.primitives.additions;
 
 import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.geom.Vec2f;
+import editor.primitives.Primitive;
 
 import java.awt.*;
 

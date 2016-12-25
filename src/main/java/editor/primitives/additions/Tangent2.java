@@ -1,7 +1,8 @@
-package editor.primitives;
+package editor.primitives.additions;
 
 import com.sun.javafx.geom.Point2D;
-import editor.Editor;
+import editor.primitives.Circle;
+import editor.primitives.additions.Addition;
 import editor.view.EditorFrame;
 
 import java.awt.*;

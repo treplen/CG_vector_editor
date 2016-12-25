@@ -2,6 +2,7 @@ package editor.primitives;
 
 import com.sun.javafx.geom.*;
 import com.sun.javafx.geom.Point2D;
+import editor.primitives.additions.Addition;
 
 import java.awt.*;
 import java.util.*;

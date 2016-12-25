@@ -4,7 +4,7 @@ import com.sun.javafx.geom.Point2D;
 import editor.Editor;
 import editor.primitives.Circle;
 import editor.primitives.Primitive;
-import editor.primitives.Tangent1;
+import editor.primitives.additions.Tangent1;
 
 import javax.swing.*;
 
