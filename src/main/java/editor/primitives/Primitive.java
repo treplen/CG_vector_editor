@@ -152,7 +152,7 @@ public abstract class Primitive {
     public void setColor(Color color)
     {
         this.color=color;
-        selectColor=new Color(color.getRed(),color.getGreen(),color.getBlue(),127);
+        selectColor=new Color(127-color.getRed()/2,127-color.getGreen()/2,127-color.getBlue()/2);
     }
 
     @Override

@@ -104,13 +104,13 @@ public class Line extends Primitive {
     {
         if (point.x<start.x&&point.x<end.x||point.x>start.x&&point.x>end.x)
             return false;
-        float right=(point.x+5-start.x)/(end.x-start.x);
-        float left=(point.x-5-start.x)/(end.x-start.x);
-        float centerY=(point.y-start.y)/(end.y-start.y);
-        float up=(point.y+5-start.y)/(end.y-start.y);
-        float down=(point.y-5-start.y)/(end.y-start.y);
-        float centerX=(point.x-start.x)/(end.x-start.x);
-        return right>centerY&&left<centerY||right<centerY&&left>centerY||up>centerX&&down<centerX||up<centerX&&down>centerX;
+        if (point.y<start.y&&point.y<end.y||point.y>start.y&&point.y>end.y)
+            return false;
+        float a=end.y-start.y;
+        float b = start.x-end.x;
+        float c = end.x*start.y-start.x*end.y;
+        float d = (float) (Math.abs(a*point.x+b*point.y+c)/Math.sqrt(a*a+b*b));
+        return d<10;
     }
 
     public void change()

@@ -15,7 +15,7 @@ public class EpicycloidOption implements EditorOption {
     @Override
     public void exec(float x, float y) {
 
-        Epicycloid epicycloid = InputEpicycloid.exec(x,y, Color.black);
+        Epicycloid epicycloid = InputEpicycloid.exec(x,y, Editor.chooser.getColor());
         if(epicycloid!=null)
             Editor.primitives.add(epicycloid);
     }

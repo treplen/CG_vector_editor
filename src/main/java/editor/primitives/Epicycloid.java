@@ -73,8 +73,10 @@ public class Epicycloid extends Primitive {
     }
 
     @Override
-    public void enlarge(Float scale, float leftBottomX, float leftBottomY) {
-
+    public void enlarge(Float scale, float leftBottomX, float leftBottomY)
+    {
+        center.setLocation(center.x + (scale - 1) * (center.x - leftBottomX), center.y + (scale - 1) * (center.y - leftBottomY));
+        inradius = inradius * scale;
     }
 
     public void reflect(Point2D point)
