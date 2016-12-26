@@ -30,7 +30,7 @@ public class ScaleDialog {
     public static void show()
     {
         scale.setText("1");
-        result=JOptionPane.showConfirmDialog(null, components , "Input displacement", JOptionPane.PLAIN_MESSAGE);
+        result=JOptionPane.showConfirmDialog(null, components , "Input scale", JOptionPane.PLAIN_MESSAGE);
     }
 
     public static boolean success()
