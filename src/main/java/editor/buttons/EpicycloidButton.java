@@ -16,6 +16,6 @@ import java.io.IOException;
  */
 public class EpicycloidButton extends EditorButton {
     public EpicycloidButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/epicycloid.bmp")), Editor.options.get(EpicycloidOption.class));
+        super(ImageIO.read(EpicycloidButton.class.getResourceAsStream("/epicycloid.bmp")), Editor.options.get(EpicycloidOption.class));
     }
 }

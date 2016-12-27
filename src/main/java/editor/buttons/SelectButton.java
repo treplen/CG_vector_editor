@@ -14,6 +14,6 @@ import java.io.IOException;
  */
 public class SelectButton extends EditorButton {
     public SelectButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/select.bmp")), Editor.options.get(SelectOption.class));
+        super(ImageIO.read(SelectButton.class.getResourceAsStream("/select.bmp")), Editor.options.get(SelectOption.class));
     }
 }

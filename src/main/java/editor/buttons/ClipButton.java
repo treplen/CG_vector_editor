@@ -12,6 +12,6 @@ import java.io.IOException;
  */
 public class ClipButton extends EditorButton {
     public ClipButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/clip.bmp")), Editor.options.get(ClipOption.class));
+        super(ImageIO.read(ClipButton.class.getResourceAsStream("/clip.bmp")), Editor.options.get(ClipOption.class));
     }
 }

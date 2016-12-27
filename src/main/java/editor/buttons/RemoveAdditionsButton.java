@@ -12,6 +12,6 @@ import java.io.IOException;
  */
 public class RemoveAdditionsButton extends EditorButton {
     public RemoveAdditionsButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/clearAdditions.bmp")), Editor.options.get(RemoveAdditionsOption.class));
+        super(ImageIO.read(RemoveAdditionsButton.class.getResourceAsStream("/clearAdditions.bmp")), Editor.options.get(RemoveAdditionsOption.class));
     }
 }

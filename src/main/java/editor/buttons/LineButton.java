@@ -16,6 +16,6 @@ import java.io.IOException;
  */
 public class LineButton extends EditorButton {
     public LineButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/line.bmp")), Editor.options.get(LineOption.class));
+        super(ImageIO.read(Line.class.getResourceAsStream("/line.bmp")), Editor.options.get(LineOption.class));
     }
 }

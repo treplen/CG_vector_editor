@@ -12,6 +12,6 @@ import java.io.IOException;
  */
 public class MirrorButton extends EditorButton {
     public MirrorButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/mirror.bmp")), Editor.options.get(MirrorOption.class));
+        super(ImageIO.read(MirrorButton.class.getResourceAsStream("/mirror.bmp")), Editor.options.get(MirrorOption.class));
     }
 }

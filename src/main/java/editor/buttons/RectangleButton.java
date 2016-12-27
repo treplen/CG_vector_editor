@@ -17,6 +17,6 @@ import java.io.IOException;
  */
 public class RectangleButton extends EditorButton {
     public RectangleButton() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/rectangle.bmp")), Editor.options.get(RectangleOption.class));
+        super(ImageIO.read(RectangleButton.class.getResourceAsStream("/rectangle.bmp")), Editor.options.get(RectangleOption.class));
     }
 }

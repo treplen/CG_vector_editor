@@ -12,6 +12,6 @@ import java.io.IOException;
  */
 public class Tangent1Button extends EditorButton {
     public Tangent1Button() throws IOException {
-        super(ImageIO.read(new File("src/main/resources/tangent1.bmp")), Editor.options.get(Tangent1Option.class));
+        super(ImageIO.read(Tangent1Button.class.getResourceAsStream("/tangent1.bmp")), Editor.options.get(Tangent1Option.class));
     }
 }
