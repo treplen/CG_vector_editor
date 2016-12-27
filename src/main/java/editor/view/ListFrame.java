@@ -60,7 +60,7 @@ public class ListFrame extends JFrame {
 
         up=new JButton();
         try {
-            up.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/up.bmp"))));
+            up.setIcon(new ImageIcon(ImageIO.read(ListFrame.class.getResourceAsStream("/up.bmp"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class ListFrame extends JFrame {
 
         down=new JButton();
         try {
-            down.setIcon(new ImageIcon(ImageIO.read(new File("src/main/resources/down.bmp"))));
+            down.setIcon(new ImageIcon(ImageIO.read(ListFrame.class.getResourceAsStream("/down.bmp"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
